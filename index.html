@@ -1,1 +1,111 @@
-<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>Kitchen Products E-commerce</title>\n    <style>\n        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }\n        header { background-color: #4CAF50; color: white; padding: 15px; text-align: center; }\n        .product { border: 1px solid #ccc; border-radius: 5px; margin: 10px; padding: 10px; text-align: center; }\n        .product img { max-width: 100%; height: auto; }\n        .cart { margin: 20px; }\n    </style>\n</head>\n<body>\n    <header>\n        <h1>Kitchen Products</h1>\n    </header>\n    <div class="cart">\n        <h2>Your Cart</h2>\n        <ul id="cart-items"></ul>\n        <p id="total-price">Total: $0</p>\n    </div>\n    <div class="products">\n        <div class="product">\n            <img src="product1.jpg" alt="Product 1">\n            <h3>Product 1</h3>\n            <p>$10.00</p>\n            <button onclick="addToCart(10, 'Product 1')">Add to Cart</button>\n        </div>\n        <div class="product">\n            <img src="product2.jpg" alt="Product 2">\n            <h3>Product 2</h3>\n            <p>$15.00</p>\n            <button onclick="addToCart(15, 'Product 2')">Add to Cart</button>\n        </div>\n        <!-- Add more products as needed -->\n    </div>\n    <script>\n        let total = 0;\n        function addToCart(price, productName) {\n            total += price;\n            const cartItems = document.getElementById('cart-items');\n            const li = document.createElement('li');\n            li.textContent = productName + ': $' + price;\n            cartItems.appendChild(li);\n            const totalPrice = document.getElementById('total-price');\n            totalPrice.textContent = 'Total: $' + total;\n        }\n    </script>\n</body>\n</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitchen Essentials</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Kitchen Essentials</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#cart">Cart</a></li>
+                <li><a href="#checkout">Checkout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="products">
+            <h2>Available Products</h2>
+            <div id="product-list">
+                <!-- Product items will be dynamically generated here -->
+            </div>
+        </section>
+        <section id="cart">
+            <h2>Your Shopping Cart</h2>
+            <div id="cart-items">
+                <!-- Cart items will be displayed here -->
+            </div>
+            <button id="checkout-btn">Proceed to Checkout</button>
+        </section>
+        <section id="checkout">
+            <h2>Checkout</h2>
+            <form id="checkout-form">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" required>
+                <button type="submit">Submit Order</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2026 Kitchen Essentials. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+
+/* Styles (styles.css) */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+}
+navigation ul {
+    list-style-type: none;
+    padding: 0;
+}
+navigation ul li {
+    display: inline;
+    margin-right: 20px;
+}
+main {
+    padding: 20px;
+}
+/* JavaScript functionality (script.js) */
+const products = [
+    { id: 1, name: 'Blender', price: 49.99 },
+    { id: 2, name: 'Mixer', price: 79.99 },
+    { id: 3, name: 'Coffee Maker', price: 29.99 }
+];
+const cart = [];
+document.addEventListener('DOMContentLoaded', () => {
+    displayProducts();
+    document.getElementById('checkout-form').addEventListener('submit', handleCheckout);
+});
+function displayProducts() {
+    const productList = document.getElementById('product-list');
+    products.forEach(product => {
+        const productDiv = document.createElement('div');
+        productDiv.innerHTML = `<h3>${product.name}</h3><p>$${product.price.toFixed(2)}</p><button onclick="addToCart(${product.id})">Add to Cart</button>`;
+        productList.appendChild(productDiv);
+    });
+}
+function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    cart.push(product);
+    displayCart();
+}
+function displayCart() {
+    const cartItems = document.getElementById('cart-items');
+    cartItems.innerHTML = '';
+    cart.forEach(item => {
+        const itemDiv = document.createElement('div');
+        itemDiv.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+        cartItems.appendChild(itemDiv);
+    });
+}
+function handleCheckout(event) {
+    event.preventDefault();
+    alert('Order submitted!');
+}
